@@ -10,10 +10,11 @@
         "tabs",
         "pageCapture",
         "webRequest",
-        "storage"
+        "storage",
+        "webNavigation"
     ],
-    "options_page": "./options.html",
+    "options_page": "./Options/options.html",
     "background": {
-        "service_worker": "./background.js"
+        "service_worker": "./Background/background.js"
     }
 }
