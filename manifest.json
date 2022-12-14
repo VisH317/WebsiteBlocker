@@ -13,7 +13,7 @@
         "storage",
         "webNavigation"
     ],
-    "options_page": "./Options/options.html",
+    "options_page": "./options.html",
     "background": {
         "service_worker": "./Background/background.js"
     }

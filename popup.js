@@ -1,8 +1,5 @@
-// use chrome.tabs.captureVisibleTab
+document.getElementById("button").addEventListener('click', () => {
+    chrome.tabs.create({url: "./blocked.htmlblocked.html"})
+})
 
-// setup storage of desired blocked links (will be changed later with updates)
-
-
-chrome.webRequest.onBeforeRequest.addListener(function(details) {
-
-}, {urls: ["*://*.*/*"]})
+// add stats display maybe in separate function

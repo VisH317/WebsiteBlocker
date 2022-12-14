@@ -15,6 +15,10 @@ function containsObject(obj, list) {
     return false;
 }
 
+function cScript() {
+    window.location.replace("./Optionsblocked.html");
+}
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if(changeInfo.url) {
         blocked = chrome.storage.local.get('blocked');
@@ -22,8 +26,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         if(containsObject(blocked, domain)) {
             chrome.scripting.executeScript({
                 target: { tabId },
-                files: ['../Content/cscript.js']
+                func: cScript
             })
         }
     }
 })
+
+// can also use chrome.tabs.update
