@@ -3,7 +3,7 @@
     "name": "Site Blocker",
     "version": "1.0",
     "action": {
-        "default_popup": "index.html"
+        "default_popup": "popup.html"
     },
     "permissions": [
         "activeTab",
@@ -13,8 +13,8 @@
         "storage",
         "webNavigation"
     ],
-    "options_page": "./options.html",
+    "options_page": "./Options/options.html",
     "background": {
-        "service_worker": "./Background/background.js"
+        "service_worker": "./background.js"
     }
 }

@@ -5,6 +5,8 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.local.set({blocked: []}).then(() => console.log("blocklist initialized"));
 })
 
+console.log("test")
+
 //check every request URL to determine if it needs to be blocked
 
 function containsObject(obj, list) {
@@ -20,6 +22,7 @@ function cScript() {
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+    console.log("updated")
     if(changeInfo.url) {
         blocked = chrome.storage.local.get('blocked');
         domain = changeInfo.url.split("/")[1];
