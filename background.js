@@ -24,6 +24,7 @@ function cScript() {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     console.log("updated")
     if(changeInfo.url) {
+        console.log("test")
         blocked = chrome.storage.local.get('blocked');
         domain = changeInfo.url.split("/")[1];
         if(containsObject(blocked, domain)) {
