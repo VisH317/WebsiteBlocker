@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Blocker Options</title>
+        <script src="./options.js"></script>
     </head>
     <body>
         <h1>Welcome to Blocker options</h1>
@@ -10,10 +11,18 @@
             <label for="links">Links to block:</label>
             <br>
             <textarea id="links" rows="10" cols="60"></textarea>
+            <br><br>
+            <h5>Set a new password:</h5><br>
+            <label for="prevpass">Previous Password: </label>
+            <input type="password" id="prevpass">
             <br>
-            <button type="submit">SUbmit form</button>
+            <label for="newpass">New Password: </label>
+            <input type="password" id="newpass">
+            <br>
+            <label for="repass">Retype New Password: </label>
+            <input type="password" id="repass">
+            <button type="submit" id="submit">Submit form</button>
         </form>
         <p id="status"></p>
-        <script src="./options.js"></script>
     </body>
 </html>

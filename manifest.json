@@ -11,7 +11,12 @@
         "pageCapture",
         "webRequest",
         "storage",
-        "webNavigation"
+        "webNavigation",
+        "scripting"
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
     ],
     "options_page": "./Options/options.html",
     "background": {
