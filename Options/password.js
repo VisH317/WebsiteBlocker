@@ -19,7 +19,7 @@ const onSubmit = event => {
 
 const setPassword = () => {
     newPassword = document.getElementById("password").value
-    chrome.local.storage.set({password: newPassword}).then(() => alert("Password has been set"))
+    chrome.storage.local.set({password: newPassword}).then(() => alert("Password has been set"))
 }
 
 document.addEventListener("DOMContentLoaded", function() {
