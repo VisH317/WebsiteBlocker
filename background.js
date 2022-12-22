@@ -9,6 +9,7 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.local.set({blocked: []}).then(() => console.log("blocklist initialized"))
     chrome.storage.local.set({password: ''}).then(() => {})
     chrome.storage.local.set({enabled: true}).then(() => {})
+    chrome.storage.local.set({isSet: false})
 
     // open init html
     chrome.tabs.create({ url: "./Options/init.html" })
@@ -25,7 +26,8 @@ chrome.runtime.onInstalled.addListener(function() {
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if(tab.url) {
         chrome.storage.local.get('blocked').then(function({ blocked }) {
-            domain = tab.url.split("/")[2];
+            domain = tab.url.split("/")[2].split(".").slice(1,3).join(".");
+            console.log(domain)
             if(blocked.includes(domain)) {
                 chrome.tabs.update(tab.id, {
                     url: "./blocked.html"

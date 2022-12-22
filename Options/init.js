@@ -4,13 +4,16 @@ const onSubmit = event => {
     console.log("HOLA COMO ESTAS")
     chrome.storage.local.get('blocked').then(function({ blocked }) {
         const text = document.getElementById("links").value.split("\n");
-        text.map(t => blocked.push("www."+t))
+        text.map(t => blocked.push(t))
         chrome.storage.local.set({ blocked: blocked }).then(() => chrome.storage.local.get('blocked').then(function({blocked}) {
             console.log(blocked)
         }))
     })
 
     setPassword()
+
+    chrome.storage.local.set({isSet: true})
+
 
     chrome.tabs.getCurrent(function(tab) {
         chrome.tabs.remove(tab.id, function() {console.log("tab removed")})

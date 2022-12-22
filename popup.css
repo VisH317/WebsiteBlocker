@@ -23,5 +23,6 @@ body {
     left: 50px;
     background-color: white;
     z-index: 11;
-    display: none
+    display: none;
+    padding: 10px;
 }
