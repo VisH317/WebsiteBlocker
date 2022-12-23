@@ -35,6 +35,7 @@ document.getElementById("breakForm").addEventListener('submit', event => {
             alert("Passwords do not match: please try again")
             return
         }
+        chrome.storage.local.set({onBreak: true})
         chrome.storage.local.set({breakStartTime: new Date()})
         chrome.storage.local.set({breakLength: document.getElementById('length').value})
         alert("Break time has been set, enjoy!")

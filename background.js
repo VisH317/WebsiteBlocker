@@ -15,7 +15,8 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.local.set({isSet: false})
     
     // set break functionalities
-    chrome.storage.local.set({breakStartTime: false})
+    chrome.storage.local.set({onBreak: false})
+    chrome.storage.local.set({breakStartTime: null})
     chrome.storage.local.set({breakLength: 0})
 
 
@@ -24,28 +25,40 @@ chrome.runtime.onInstalled.addListener(function() {
 })
 
 const checkBlocked = () => {
-    chrome.storage.local.get('breakStartTime').then(({ breakStartTime }) => {
-        if(!breakStartTime) return true
-        chrome.storage.local.get('breakLength').then(({ breakLength }) => {
-            const currentDate = new Date()
-            const diff = (currentDate - breakStartTime)/60000
-            if(diff>=breakLength) return false
-            return true
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get('onBreak').then(({ onBreak }) => {
+            console.log(onBreak)
+            if(!onBreak) {
+                resolve(true)
+            }
+            chrome.storage.local.get('breakStartTime').then(({ breakStartTime }) => {
+                chrome.storage.local.get('breakLength').then(({ breakLength }) => {
+                    const currentDate = new Date()
+                    const diff = (currentDate - breakStartTime)/60000
+                    if(diff>=breakLength) {
+                        chrome.storage.local.set({onBreak: false})
+                        resolve(true)
+                    }
+                    resolve(false)
+                })
+            })
         })
     })
+    
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    blocked = checkBlocked()
-    if(tab.url && blocked) {
-        chrome.storage.local.get('blocked').then(function({ blocked }) {
-            domain = tab.url.split("/")[2].split(".").slice(1,3).join(".");
-            console.log(domain)
-            if(blocked.includes(domain)) {
-                chrome.tabs.update(tab.id, {
-                    url: "./blocked.html"
-                })
-            }
-        })
-    }
+    checkBlocked().then(isBlocked => {
+        if(tab.url && isBlocked) {
+            chrome.storage.local.get('blocked').then(function({ blocked }) {
+                domain = tab.url.split("/")[2].split(".").slice(1,3).join(".");
+                console.log(domain)
+                if(blocked.includes(domain)) {
+                    chrome.tabs.update(tab.id, {
+                        url: "./blocked.html"
+                    })
+                }
+            })
+        }
+    })  
 })
