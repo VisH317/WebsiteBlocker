@@ -12,21 +12,43 @@
         </div>
         <br>
         <button id="disable">Disable Blocker / Get Break</button>
+        <br>
+        <button id="changepword">Change Password</button>
         <!-- modals/backdrops -->
         <div id="backdrop" class="backdrop"></div>
-        <div id="modal" class="modal">
+        <div id="breakModal" class="modal">
             <p>Get break Time: </p>
             <br>
-            <form id="passForm">
+            <form id="breakForm">
                 <label for="password">Password: </label>
                 <input type="password">
                 <br>
                 <label for="break">Break Time: </label>
-                <input type="number">
+                <input type="number" id="length">
                 <p>End Time
                     : </p>
                 <p id="endval"></p>
             </form>
+        </div>
+        <div id="passModal" class="modal passmodal">
+            <p>Change Password: </p>
+            <form id="passChangeForm">
+                <label for="prevpass">Previous Password: </label>
+                <input type="password" id="prevpass">
+                <br><br>
+                <label for="newpass">New Password: </label>
+                <input type="password" id="newpass">
+                <span id="noRePass1" class="norepass">New and retyped password do not match</span>
+                <br><br>
+                <label for="repass">Retype New password: </label>
+                <input type="password" id="repass">
+                <span id="noRePass2" class="norepass">New and retyped password do not match</span>
+                <br><br>
+                <button type="submit" id="submit">Change Password</button>
+            </form>
+        </div>
+        <div id="passNotSetModal" class="modal passnotsetmodal">
+            <p>Your initial password has not been set yet, go to the options page to set that before trying to change your password actual L lmao stupid</p>
         </div>
         <!-- script -->
         <script src="./popup.js" type="module"></script>

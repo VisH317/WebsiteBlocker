@@ -54,19 +54,9 @@ const checkRedirect = () => {
     })
 }
 
-// console.log("options.js running")
-
-// const form = document.getElementById("form");
-// console.log(form)
-// form.addEventListener("submit", () => console.log("test"));
 document.addEventListener("DOMContentLoaded", function() {
     checkRedirect()
     console.log("DOM Content loaded")
     setLinks()
     document.getElementById("form").addEventListener("submit", onSubmit)
 })
-
-// todo: debug the code: fix options code, background service worker, popup
-// get the blocked page to show, console logs to work
-// features to add: blocked page show currently blocked domains
-// search for domain to block and check proper blocking after 
