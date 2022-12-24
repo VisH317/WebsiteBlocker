@@ -4,7 +4,7 @@ const onSubmit = event => {
     const text = document.getElementById("links").value.split("\n");
     let blocked = []
     text.map(t => {
-        if(t.length==0||!blocked.includes(t)) blocked.push(t)
+        if(t.length>0&&!blocked.includes(t)) blocked.push(t)
     })
     console.log(blocked)
     chrome.storage.local.set({ blocked: blocked }).then(() => chrome.storage.local.get('blocked').then(function({blocked}) {

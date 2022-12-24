@@ -27,7 +27,6 @@ chrome.runtime.onInstalled.addListener(function() {
 const checkBlocked = () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get('onBreak').then(({ onBreak }) => {
-            console.log(onBreak)
             if(!onBreak) {
                 resolve(true)
             }
@@ -44,7 +43,6 @@ const checkBlocked = () => {
             })
         })
     })
-    
 }
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
@@ -52,7 +50,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
         if(tab.url && isBlocked) {
             chrome.storage.local.get('blocked').then(function({ blocked }) {
                 domain = tab.url.split("/")[2].split(".").slice(1,3).join(".");
-                console.log(domain)
                 if(blocked.includes(domain)) {
                     chrome.tabs.update(tab.id, {
                         url: "./blocked.html"

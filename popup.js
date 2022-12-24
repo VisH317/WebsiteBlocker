@@ -44,23 +44,20 @@ document.getElementById("breakForm").addEventListener('submit', event => {
 })
 
 document.getElementById("passChangeForm").addEventListener('change', event => {
-    chrome.storage.local.get('password').then(({ password }) => {
-        console.log("changed")
-        const prevPass = document.getElementById("prevpass").value
-        const newPass = document.getElementById("newpass").value
-        const rePass = document.getElementById("repass").value 
-        if(newPass!=rePass) {
-            document.getElementById("noRePass1").style.display = "block"
-            document.getElementById("noRePass2").style.display = "block"
-            document.getElementById("newpass").style.borderColor = "#cc0000"
-            document.getElementById("repass").style.borderColor = "#cc0000"
-        } else {
-            document.getElementById("noRePass1").style.display = "none"
-            document.getElementById("noRePass2").style.display = "none"
-            document.getElementById("newpass").style.borderColor = "#000"
-            document.getElementById("repass").style.borderColor = "#000"
-        }
-    })
+    console.log("changed")
+    const newPass = document.getElementById("newpass").value
+    const rePass = document.getElementById("repass").value 
+    if(newPass!=rePass) {
+        document.getElementById("noRePass1").style.display = "block"
+        document.getElementById("noRePass2").style.display = "block"
+        document.getElementById("newpass").style.borderColor = "#cc0000"
+        document.getElementById("repass").style.borderColor = "#cc0000"
+    } else {
+        document.getElementById("noRePass1").style.display = "none"
+        document.getElementById("noRePass2").style.display = "none"
+        document.getElementById("newpass").style.borderColor = "#000"
+        document.getElementById("repass").style.borderColor = "#000"
+    }
 })
 
 document.getElementById("passChangeForm").addEventListener('submit', event => {
