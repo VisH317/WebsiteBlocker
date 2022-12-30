@@ -1,11 +1,19 @@
 import torch
 import json
-
+import csv
 import torch.nn as nn
 import torch.nn.functional as F
 
 from transformers import BertTokenizer, BertForSequenceClassification
 
+# access model params from bucket
+import boto3
+bucket_name = "placeholder"
+model_parameters_file_name = "placeholder"
+categories_file_name = ""
+s3_resource = boto3.resource('s3')
+s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
+s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
 
 device = torch.device('cpu')
 
@@ -40,23 +48,37 @@ class WebsiteClassifier(nn.Module):
 
 
 model_file = '/opt/ml/model'
+tokenizer = BertTokenizer.from_pretrained('prajjwal/bert-tiny')
 model = WebsiteClassifier()
 model.load_state_dict(torch.load(model_file))
 
+cats_file = open("/opt/ml/categories.csv", "r")
+categories = list(csv.reader(cats_file, deliminter=","))
+categories = [cat[1] for cat in categories]
+
 def get_top_categories(probabilities):
+    values,top3 = torch.topk(probabilities, 3)
+    top_cats = []
+    for idx in top3:
+        top_cats.append(categories[idx])
+    return top_cats
 
 # things to do: get the categories list and match them to probabilities, send the top 3 as a request
 # make a local API to test
 # setup the queue service for the model
+# research storing model params in S3 - done
 # deploy and test
 # styles, stats, etc.
 
-def lambda_handler(event, context):
+def website_inference(event, context):
     title = event['body']['title']
     url = event['body']['url']
 
-    probabilities = model.forward(title, url)
-    label = torch.argmax(probabilities).item()
+    title_embed = tokenizer(title)
+    url_embed = tokenizer(url)
+
+    probabilities = model.forward(title_embed, url_embed)
+    label = get_top_categories(probabilities)
 
     return {
         'statusCode': 200,

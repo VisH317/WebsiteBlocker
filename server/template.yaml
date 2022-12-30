@@ -3,27 +3,42 @@ Transform: AWS::Serverless-2016-10-31
 
 Globals:
   Function:
-    Timeout: 50
+    Handler: "website_inference"
+    Timeout: 300
     MemorySize: 5000
-  Api:
-    BinaryMediaTypes:
-    - image/png
-    - image/jpg
-    - image/jpeg
+    Environment:
+      Variables:
+        MODEL_DIR: /opt/ml/model/
+
+Parameters:
+  SrcBucket:
+    Type: String
+    Description: S3 bucket to store model parameters
+    Default: mybucket-ml-models
 
 Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Ref SrcBucket
+
   InferenceFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      PackageType: Image
+      CodeUri: app/
+      Handler: app.website_inference
       Architectures:
       - x86_64
       Events:
         Inference:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /classify_digit
+            Path: /website_inference
             Method: post
+      Policies:
+       - S3ReadPolicy:
+            BucketName: !Red SrcBucket
+       - SQSPollerPolicy
     Metadata:
       Dockerfile: Dockerfile
       DockerContext: ./app
@@ -39,6 +54,7 @@ Resources:
           - Ref: AWS::StackName
       ResourceQuery:
         Type: CLOUDFORMATION_STACK_1_0
+
   ApplicationInsightsMonitoring:
     Type: AWS::ApplicationInsights::Application
     Properties:
