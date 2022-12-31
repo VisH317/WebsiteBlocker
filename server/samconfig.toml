@@ -1,0 +1,13 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "site-blocker"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1qwf8tt81jgx8"
+s3_prefix = "site-blocker"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+parameter_overrides = "SrcBucket=\"site-blocker-ml-models\""
+image_repositories = []

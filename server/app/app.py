@@ -8,9 +8,9 @@ from transformers import BertTokenizer, BertForSequenceClassification
 
 # access model params from bucket
 import boto3
-bucket_name = "placeholder"
-model_parameters_file_name = "placeholder"
-categories_file_name = ""
+bucket_name = "ml-bucket"
+model_parameters_file_name = "model.pt"
+categories_file_name = "categories.csv"
 s3_resource = boto3.resource('s3')
 s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
 s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
@@ -66,6 +66,7 @@ def get_top_categories(probabilities):
 # things to do: get the categories list and match them to probabilities, send the top 3 as a request
 # make a local API to test
 # setup the queue service for the model
+# research lambda authorizer
 # research storing model params in S3 - done
 # deploy and test
 # styles, stats, etc.
