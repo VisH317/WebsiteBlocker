@@ -17,10 +17,10 @@ Parameters:
     Default: siteblocker-ml-models
 
 Resources:
-  S3Bucket:
-    Type: 'AWS::S3::Bucket'
-    Properties:
-      BucketName: !Ref SrcBucket
+  # S3Bucket:
+    # Type: 'AWS::S3::Bucket'
+    # Properties:
+    #   BucketName: !Ref SrcBucket
 
   InferenceFunction:
     Type: AWS::Serverless::Function
@@ -41,27 +41,27 @@ Resources:
             BucketName: !Red SrcBucket
        - SQSPollerPolicy
 
-  ApplicationResourceGroup:
-    Type: AWS::ResourceGroups::Group
-    Properties:
-      Name:
-        Fn::Join:
-        - ''
-        - - ApplicationInsights-SAM-
-          - Ref: AWS::StackName
-      ResourceQuery:
-        Type: CLOUDFORMATION_STACK_1_0
+  # ApplicationResourceGroup:
+  #   Type: AWS::ResourceGroups::Group
+  #   Properties:
+  #     Name:
+  #       Fn::Join:
+  #       - ''
+  #       - - ApplicationInsights-SAM-
+  #         - Ref: AWS::StackName
+  #     ResourceQuery:
+  #       Type: CLOUDFORMATION_STACK_1_0
 
-  ApplicationInsightsMonitoring:
-    Type: AWS::ApplicationInsights::Application
-    Properties:
-      ResourceGroupName:
-        Fn::Join:
-        - ''
-        - - ApplicationInsights-SAM-
-          - Ref: AWS::StackName
-      AutoConfigurationEnabled: 'true'
-    DependsOn: ApplicationResourceGroup
+  # ApplicationInsightsMonitoring:
+  #   Type: AWS::ApplicationInsights::Application
+  #   Properties:
+  #     ResourceGroupName:
+  #       Fn::Join:
+  #       - ''
+  #       - - ApplicationInsights-SAM-
+  #         - Ref: AWS::StackName
+  #     AutoConfigurationEnabled: 'true'
+  #   DependsOn: ApplicationResourceGroup
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

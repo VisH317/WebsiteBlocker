@@ -7,18 +7,18 @@ import torch.nn.functional as F
 from transformers import BertTokenizer, BertForSequenceClassification
 
 # access model params from bucket
-import boto3
-bucket_name = "ml-bucket"
-model_parameters_file_name = "model.pt"
-categories_file_name = "categories.csv"
-s3_resource = boto3.resource('s3')
-s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
-s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
+# import boto3
+# bucket_name = "ml-bucket"
+# model_parameters_file_name = "model.pt"
+# categories_file_name = "categories.csv"
+# s3_resource = boto3.resource('s3')
+# s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
+# s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
 
 device = torch.device('cpu')
 
 class WebsiteClassifier(nn.Module):
-    def __init__(self, ds):
+    def __init__(self):
         super().__init__()
         # title and url feature extractor BERTs
         self.title_model = BertForSequenceClassification.from_pretrained('prajjwal1/bert-tiny', num_labels=384).to(device, dtype=torch.float32)
@@ -37,7 +37,6 @@ class WebsiteClassifier(nn.Module):
         ).to(device, dtype=torch.float32)
                
         self.optim = torch.optim.AdamW(self.parameters(), 1e-3)
-        self.ds = ds
     
     def forward(self, title, url):
         title_output = self.title_model(**title).logits.to(device, dtype=torch.float32).squeeze()
@@ -48,7 +47,7 @@ class WebsiteClassifier(nn.Module):
 
 
 model_file = '/opt/ml/model'
-tokenizer = BertTokenizer.from_pretrained('prajjwal/bert-tiny')
+tokenizer = BertTokenizer.from_pretrained('prajjwal1/bert-tiny')
 model = WebsiteClassifier()
 model.load_state_dict(torch.load(model_file))
 
