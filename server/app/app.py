@@ -15,6 +15,13 @@ from transformers import BertTokenizer, BertForSequenceClassification
 # s3_resource = boto3.resource('s3')
 # s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
 # s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
+# import boto3
+# bucket_name = "ml-bucket"
+# model_parameters_file_name = "model.pt"
+# categories_file_name = "categories.csv"
+# s3_resource = boto3.resource('s3')
+# s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
+# s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
 
 device = torch.device('cpu')
 
