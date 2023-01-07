@@ -1,0 +1,1 @@
+# setup: include SQS, CI/CD with Jenkins, write tests

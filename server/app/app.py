@@ -7,23 +7,12 @@ import torch.nn.functional as F
 
 from transformers import BertTokenizer, BertForSequenceClassification
 
-# access model params from bucket
-# import boto3
-# bucket_name = "ml-bucket"
-# model_parameters_file_name = "model.pt"
-# categories_file_name = "categories.csv"
-# s3_resource = boto3.resource('s3')
-# s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
-# s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
-# import boto3
-# bucket_name = "ml-bucket"
-# model_parameters_file_name = "model.pt"
-# categories_file_name = "categories.csv"
-# s3_resource = boto3.resource('s3')
-# s3_resource.Object(bucket_name, model_parameters_file_name).download_file(f'/opt/ml/model')
-# s3_resource.Object(bucket_name, categories_file_name).download_file(f'/opt/ml/categories')
-
 device = torch.device('cpu')
+
+# SQS
+import boto3
+sqs = boto3.client('sqs')
+
 
 class WebsiteClassifier(nn.Module):
     def __init__(self):
@@ -50,7 +39,7 @@ class WebsiteClassifier(nn.Module):
         print(title)
         title_output = self.title_model(**title).logits.to(dtype=torch.float32).squeeze()
         url_output = self.url_model(**url).logits.to(dtype=torch.float32).squeeze()
-        concated = torch.cat+((title_output, url_output), dim=0).to(dtype=torch.float32)
+        concated = torch.cat((title_output, url_output), dim=0).to(dtype=torch.float32)
         output = self.classifier(concated).to(dtype=torch.float32)
         return output
 

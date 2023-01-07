@@ -17,10 +17,8 @@ Parameters:
     Default: siteblocker-ml-models
 
 Resources:
-  # S3Bucket:
-    # Type: 'AWS::S3::Bucket'
-    # Properties:
-    #   BucketName: !Ref SrcBucket
+  # Queue:
+  #   Type: AWS:SQS:Queue  
 
   InferenceFunction:
     Type: AWS::Serverless::Function
@@ -28,6 +26,7 @@ Resources:
       CodeUri: app/
       Handler: app.website_inference
       Runtime: python3.8
+      Timeout: 50
       Architectures:
        - x86_64
       Events:
@@ -37,9 +36,13 @@ Resources:
             Path: /website_inference
             Method: POST
       Policies:
-       - S3ReadPolicy:
-            BucketName: !Red SrcBucket
-       - SQSPollerPolicy
+      - S3ReadPolicy:
+            BucketName: !Ref SrcBucket
+      - SQSPollerPolicy
+    Metadata:
+      Dockerfile: ./app/Dockerfile
+      DockerContext: ./app
+      DockerTag: v1
 
   # ApplicationResourceGroup:
   #   Type: AWS::ResourceGroups::Group
