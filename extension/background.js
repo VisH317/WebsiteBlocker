@@ -47,31 +47,37 @@ chrome.tabs.onUpdated.addListener(async function(tabId, changeInfo, tab) {
     if(tab.url && isBlocked) {
         const { blocked } = await chrome.storage.local.get('blocked')
         // call AI
-        const request = {
-            URL: tab.url,
-            Title: tab.title
-        }
-        const res = await fetch("http://127.0.0.1:3000/video", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(request)
-        })
-        const {predicted_label} = res.json()
-        console.log(predicted_label)
-        labels = []
         shouldBlock = false
-        for(let i=0;i<predicted_label.length;i++) {
-            if(labels!="NaN") labels.push(predicted_label[i])
+        const isHTTP = tab.url.split(":")[0]=="http" || tab.url.split(":")[0]=="https"
+        if(isHTTP) {
+            console.log(tab.url)
+            console.log(tab.title)
+            const request = {
+                URL: tab.url,
+                Title: tab.title
+            }
+            const res = await fetch("http://127.0.0.1:3000/video", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(request)
+            })
+            const label_text = await res.text()
+            console.log(label_text)
+            const { predicted_label } = JSON.parse(label_text)
+            console.log("Got predicted labels!!")
+            console.log(predicted_label)
+            labels = []
+            for(let i=0;i<predicted_label.length;i++) {
+                if(labels!="NaN") labels.push(predicted_label[i])
+            }
+            for(let i=0;i<labels.length;i++) {
+                if(breakLabels.includes(labels[i])) shouldBlock = true
+            }
         }
-        console.log(labels)
-        for(let i=0;i<labels.length;i++) {
-            if(breakLabels.includes(labels[i])) shouldBlock = true
-        }
-        console.log(shouldBlock)
         domain = tab.url.split("/")[2].split(".").slice(1,3).join(".")
-        if(blocked.includes(domain)) {
+        if(isHTTP && blocked.includes(domain)) {
             chrome.tabs.update(tab.id, {
                 url: "./blocked.html"
             })

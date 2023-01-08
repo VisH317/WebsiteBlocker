@@ -20,6 +20,16 @@ Resources:
   # Queue:
   #   Type: AWS:SQS:Queue  
 
+  # MyAPI:
+  #   Type: AWS::Serverless::API
+  #   Properties:
+  #     StageName: Prod
+  #     Auth:
+  #       DefaultAuthorizer: LambdaAuth
+  #       Authorizers:
+  #         LambdaAuth:
+  #           FunctionArn: !GetAtt InferenceFunction.Arn
+
   InferenceFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -33,7 +43,8 @@ Resources:
         Inference:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /website_inference
+            # ApiId: !Ref MyAPI
+            Path: /video
             Method: POST
       Policies:
       - S3ReadPolicy:

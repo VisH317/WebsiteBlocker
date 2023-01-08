@@ -1,3 +1,5 @@
+from os.path import exists
+
 import torch
 import pandas as pd
 import json
@@ -18,8 +20,8 @@ class WebsiteClassifier(nn.Module):
     def __init__(self):
         super().__init__()
         # title and url feature extractor BERTs
-        self.title_model = BertForSequenceClassification.from_pretrained('prajjwal1/bert-tiny', num_labels=384).to(dtype=torch.float32)
-        self.url_model = BertForSequenceClassification.from_pretrained('prajjwal1/bert-tiny', num_labels=384).to(dtype=torch.float32)
+        self.title_model = BertForSequenceClassification.from_pretrained('./model/bert', num_labels=384).to(dtype=torch.float32)
+        self.url_model = BertForSequenceClassification.from_pretrained('./model/bert', num_labels=384).to(dtype=torch.float32)
                 
         # classifier network
         self.classifier = nn.Sequential(
@@ -30,7 +32,7 @@ class WebsiteClassifier(nn.Module):
             nn.LeakyReLU(),
             nn.LayerNorm(600),
             nn.Linear(600, 588),
-            nn.Softmax()
+            nn.Softmax(0)
         ).to(dtype=torch.float32)
                
         self.optim = torch.optim.AdamW(self.parameters(), 1e-3)
@@ -45,7 +47,7 @@ class WebsiteClassifier(nn.Module):
 
 
 model_file = './model/model.pt'
-tokenizer = BertTokenizer.from_pretrained('prajjwal1/bert-tiny')
+tokenizer = BertTokenizer.from_pretrained('./model/tokenizer')
 model = WebsiteClassifier()
 model.load_state_dict(torch.load(model_file, map_location=torch.device('cpu')))
 
@@ -61,8 +63,9 @@ def get_top_categories(probabilities):
     return top_cats
 
 def website_inference(event, context):
-    title = event['body']['Title']
-    url = event['body']['URL']
+    body = json.loads(event['body'])
+    title = body['Title']
+    url = body['URL']
 
     title_embed = tokenizer(title, return_tensors='pt')
     url_embed = tokenizer(url, return_tensors='pt')

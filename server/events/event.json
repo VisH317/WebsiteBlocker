@@ -43,5 +43,5 @@
     "apiId": "1234567890",
     "protocol": "HTTP/1.1"
   },
-  "body": {"URL": "awoeifjalsdkfjzxcv", "Title": "titleplaceholder"}
+  "body": "{\"URL\": \"awoeifjalsdkfjzxcv\", \"Title\": \"titleplaceholder\"}"
 }
