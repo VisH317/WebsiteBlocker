@@ -12,24 +12,27 @@
                 <div class="link">
                     <a href="./Options/options.html">Options</a>
                 </div>
-                <div class="link">
-                    <a href="./Options/options.html">About</a>
-                </div>
-                <div class="link">
-                    <a href="./Options/options.html">Options</a>
-                </div>
             </div>
         </nav>
-        <p>Site Blocker Extension</p>
-        <button id="button">Open Options</button>
-        <br>
-        <div id="stats">
-            <p>stats</p>
+        <div class="main-body">
+            <div class="body-top">
+                <div id="stats" class="stats">
+                    <p>7 minutes of break</p>
+                </div>
+                <div class="actions">
+                    <button id="disable" class="action-button">Disable Blocker / Get Break</button>
+                    <button id="changepword" class="action-button">Change Password</button>
+                </div>
+            </div>
+            <div class="body-bottom">
+                <div class="body-bottom-left">
+                    <p>Quick Settings: </p>
+                </div>
+                <div class="body-bottom-right">
+                    <p> settings to be addaesljflaskdjfl</p>
+                </div>
+            </div>
         </div>
-        <br>
-        <button id="disable">Disable Blocker / Get Break</button>
-        <br>
-        <button id="changepword">Change Password</button>
         <!-- modals/backdrops -->
         <div id="backdrop" class="backdrop"></div>
         <div id="breakModal" class="modal">
@@ -63,10 +66,11 @@
                 <br><br>
                 <button type="submit" id="submit">Change Password</button>
             </form>
+            <div id="passNotSetModal" class="modal passnotsetmodal">
+                <p>Your initial password has not been set yet, go to the options page to set that before trying to change your password actual L lmao stupid</p>
+            </div>
         </div>
-        <div id="passNotSetModal" class="modal passnotsetmodal">
-            <p>Your initial password has not been set yet, go to the options page to set that before trying to change your password actual L lmao stupid</p>
-        </div>
+        
         <!-- script -->
         <script src="./popup.js" type="module"></script>
     </body>

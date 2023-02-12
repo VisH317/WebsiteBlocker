@@ -1,0 +1,45 @@
+body {
+    background-image: linear-gradient(to bottom right, #d7cec7, #c09f80);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.text {
+    width: 400px;
+    height: 300px;
+    padding-right: 25px;
+
+}
+
+.text h1 {
+    color: #76323f;
+    font-size: 70px;
+}
+
+.text .head {
+
+}
+
+.right {
+    width: 400px;
+    height: 300px;
+    border-left: 1px solid #565656;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.abutton {
+    width: 300px;
+    height: 65px;
+    font-size: 20px;
+    color: white;
+    background-color: #76323f;
+    border: none;
+    border-radius: 50px;
+    position: relative;
+    left: 30px;
+}
